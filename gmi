@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Wrap gmiget to provide defaults for retrieving gemini
+# pages
+
+for dep in gmiget gmifmt; do
+    command -v "$dep" >/dev/null || echo "Missing '$dep'"
+done
+
+gmiget $1 | gmifmt -m 2 | less -EXFrM
