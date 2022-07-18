@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Start a Kakoune session, giving it the name of the current
+# directory
+kak -s "${PWD##*/}" "${1}"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Reads the list of current Kakoune sessions and passes through
+# to fzf for selection
+kak -c $(kak -l | fzf --height=5)
