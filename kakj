@@ -2,4 +2,8 @@
 
 # Reads the list of current Kakoune sessions and passes through
 # to fzf for selection
-kak -c $(kak -l | fzf --height=5)
+
+sess="$(kak -l | fzf --height=10 --reverse)"
+if [ $? -eq 0 ]; then
+  kak -c "$sess"
+fi
