@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+  echo "Please provide a URL to retrieve links for"
+  exit 1
+fi
+
+# gmilinks uses a '|' as a delimiter between link text and the link URL.
+# 1. Get the supplied Gemini page, pipe it into gmilinks
+# 2. gmilinks outputs a list of links on the page, which is piped over stdin to fzf
+# 3. fzf displays the list; the selected value is saved in the $selected array
+IFS='|' read -ra selected < <(
+  gmiget $1 |
+    gmilinks |
+    fzf --ansi \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --preview " echo {} | cut -d'|' -f2 | gmi" \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' # --delimiter '|' \
+)
+[ -n "${selected[1]}" ] && gmi "${selected[1]}"
