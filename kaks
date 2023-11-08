@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-# Start a Kakoune session, giving it the name of the current
-# directory
-kak -s "${PWD##*/}" "${@}"
+# Start a Kakoune session, giving it the name of the current directory.
+#
+# Convert any '.' prefixes into the string 'dot_', so that (for example)
+# '.config' becomes 'dot_config'.
+pwd="${PWD##*/}"
+kak -s "${pwd/./dot_}" "${@}"
