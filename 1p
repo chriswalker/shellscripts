@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Fuzzy-find Login items in 1Password vaults, and copy the
+# password of the selected item to the clipboard.
+
+# Check dependencies exist first.
+for dep in fzf op; do
+  command -v "${dep}" >/dev/null 2>&1 || {
+    echo >&2 "Missing binary '${dep}'"
+    exit 1
+  }
+done
+
+# Now get items, pipe into FZF and then get the password from
+# the selection.
+id=$(op item list --categories Login |
+  awk -F' {2,}' 'NR > 1 { printf("%s-%s\n", $2, $1) }' |
+  fzf |
+  awk -F'-' '{print $2}')
+op item get "${id}" --fields password | pbcopy
