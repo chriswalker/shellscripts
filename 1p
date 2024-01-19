@@ -13,8 +13,7 @@ done
 
 # Now get items, pipe into FZF and then get the password from
 # the selection.
-id=$(op item list --categories Login |
-  awk -F' {2,}' 'NR > 1 { printf("%s-%s\n", $2, $1) }' |
-  fzf |
-  awk -F'-' '{print $2}')
-op item get "${id}" --fields password | pbcopy
+name=$(op item list --categories Login |
+  awk -F' {2,}' 'NR > 1 { printf("%s\n", $2) }' |
+  fzf --height=30%)
+op item get "${name}" --fields password | pbcopy
