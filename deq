@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# De-quarantine binaries from 'untrusted' developers.
+
+xattr -d com.apple.quarantine $1
